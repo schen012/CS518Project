@@ -1,90 +1,41 @@
 <?php
-
-// Include any necessary authentication and database connection code here
 	//include information required to access database
-
 	require 'authentication.php'; 
 	//start a session 
 	session_start();
 // Initialize variables
 $message = '';
-
 // Connect to the database
-
 $connection = new mysqli($server, $sqlUsername, $sqlPassword, $databaseName);
-
-
-
 // Function to change the password
-
 function changePassword($connection, $userID, $newPassword)
-
 {
-
     // Hash the new password (you can use password_hash for better security)
-
     $hashedPassword = md5($newPassword); // Change this to use password_hash
-
-
-
     // Update the password in the user table
-
-    $userTable = "userprofile";
-
-    $sql = "UPDATE $userTable SET password = '$hashedPassword' WHERE userid = '$userID'";
-
-
-
+    $userTable = "users";
+    $sql = "UPDATE $userTable SET password = '$hashedPassword' WHERE username = '$userID'";
     if ($connection->query($sql) === TRUE) {
-
         return true; // Password updated successfully
-
     } else {
-
         return false; // Error updating password
-
     }
-
 }
-
-
-
 // Handle password change form submission
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
     $newPassword = $_POST['new_password'];
-
-
-
     // Add validation for the new password here if needed
-
-
-
     // Attempt to change the password
-
-    if (changePassword($connection, $_SESSION['userID'], $newPassword)) {
-
+    if (changePassword($connection, $_SESSION['username'], $newPassword)) {
         // Password changed successfully
-
         $errorMessage = "Password changed successfully!";
-
     } else {
-
         // Error changing password
-
         $errorMessage = "Error changing password.";
-
     }
-
 }
-
-
-
 // Close the database connection
-
 $connection->close();
-
 ?>
 <!DOCTYPE html>
 
@@ -276,7 +227,7 @@ $connection->close();
 
         </form>
 
-        <p class="message"><?php echo $message; ?></p>
+        <p class="message"><?php echo $errorMessage; ?></p>
 
         <a href="login.php" class="back-link">Back to Login</a>
 

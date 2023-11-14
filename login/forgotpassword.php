@@ -1,76 +1,36 @@
 <?php
-
 // Include any necessary authentication and database connection code here
-
 require 'authentication.php';
 session_start();
 // Initialize variables
-
 $message = '';
-
-
-
 // Handle the form submission
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
     $email = $_POST['email'];
-
-
-
     // Validate the email address (you can add more robust validation)
-
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-
         $message = 'Please enter a valid email address.';
-
     } else {
-
         // Check if the email exists in the database (you may need to customize this)
-
         $conn = new mysqli($server, $sqlUsername, $sqlPassword, $databaseName);
-
-        $sql = "SELECT userid FROM userprofile WHERE email = '$email'";
-
+        $sql = "SELECT username FROM users WHERE email = '$email'";
         $result = $conn->query($sql);
-
-
-
         if ($result && $result->num_rows > 0) {
-
             // Email found in the database, proceed to reset password
-
             // Generate a temporary password or a reset token and update the user's password
-
             // You should implement this logic here
-
-
-
             // Redirect to the password reset confirmation page
-
             header('Location: resetpassword.php');
-
             exit();
-
         } else {
-
             // Email not found in the database
-
             $message = 'Email address not found.';
-
         }
-
-
-
         $conn->close();
-
     }
-
 }
-
 ?>
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>

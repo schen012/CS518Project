@@ -1,167 +1,73 @@
 <?php
-
 // Include authentication and start the session as before
-
 require 'authentication.php';
-
 session_start();
-
 $errorMessage = '';
-
-
-
 // Check if the user is logged in
-
 if (!isset($_SESSION['db_is_logged_in']) || $_SESSION['db_is_logged_in'] != true) {
-
     header('Location: login.php');
-
     exit;
-
 }
-
-
-
 // Connect to the database
-
 $connection = new mysqli($server, $sqlUsername, $sqlPassword, $databaseName);
-
-
-
 // Function to change the password
-
 function changePassword($connection, $userID, $newPassword)
-
 {
-
     // Hash the new password (you can use password_hash for better security)
-
     $hashedPassword = md5($newPassword); // Change this to use password_hash
-
-
-
     // Update the password in the user table
-
-    $userTable = "userprofile";
-
-    $sql = "UPDATE $userTable SET password = '$hashedPassword' WHERE userid = '$userID'";
-
-
-
+    $userTable = "users";
+    $sql = "UPDATE $userTable SET password = '$hashedPassword' WHERE username = '$userID'";
     if ($connection->query($sql) === TRUE) {
-
         return true; // Password updated successfully
-
     } else {
-
         return false; // Error updating password
-
     }
-
 }
-
-
-
 // Handle password change form submission
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
     $newPassword = $_POST['new_password'];
-
-
-
     // Add validation for the new password here if needed
-
-
-
     // Attempt to change the password
-
-    if (changePassword($connection, $_SESSION['userID'], $newPassword)) {
-
+    if (changePassword($connection, $_SESSION['username'], $newPassword)) {
         // Password changed successfully
-
         $errorMessage = "Password changed successfully!";
-
     } else {
-
         // Error changing password
-
         $errorMessage = "Error changing password.";
-
     }
-
 }
-
-
-
 // Close the database connection
-
 $connection->close();
-
 ?>
-
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Change Password</title>
-
     <style>
-
         /* Global styles */
-
         body {
-
             font-family: 'Helvetica Neue', Arial, sans-serif;
-
             background-color: #f4f4f4;
-
             margin: 0;
-
             padding: 0;
-
         }
-
-
-
         .container {
-
             max-width: 400px;
-
             margin: 0 auto;
-
             background-color: #fff;
-
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-
             padding: 20px;
-
             border-radius: 10px;
-
             text-align: center;
-
         }
-
-
-
         h1 {
-
             font-size: 24px;
-
             color: #333;
-
             margin-bottom: 20px;
-
         }
-
-
-
         /* Form styles */
 
         label {
@@ -175,17 +81,10 @@ $connection->close();
             margin-bottom: 10px;
 
         }
-
-
-
         input[type="password"] {
-
             width: 100%;
-
             padding: 10px;
-
             margin-bottom: 20px;
-
             border: 1px solid #ccc;
 
             border-radius: 5px;
@@ -199,13 +98,9 @@ $connection->close();
         button[type="submit"] {
 
             background-color: #0070c9;
-
             color: #fff;
-
             border: none;
-
             border-radius: 5px;
-
             padding: 12px 20px;
 
             font-size: 18px;
@@ -213,8 +108,6 @@ $connection->close();
             cursor: pointer;
 
         }
-
-
 
         button[type="submit"]:hover {
 
