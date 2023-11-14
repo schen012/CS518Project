@@ -42,6 +42,8 @@ if (!$query_result) {
             echo "</tr>";
         }
         ?>
+<p><a href="main.php">Back to Main Page</a></p>
+
     </table>
 </body>
 </html>
