@@ -53,9 +53,6 @@ Open a web browser and go to the specified address (e.g., http://localhost:3000)
 Contributing
 Contributions to the project are welcome. Follow the guidelines in the CONTRIBUTING.md file to contribute to the development of the CS518Project.
 
-License
-This project is licensed under the MIT License.
-
 Acknowledgments
 Mention any external libraries, tools, or frameworks used in the project.
 Give credit to contributors or organizations that inspired or supported the development.
