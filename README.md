@@ -59,5 +59,5 @@ Give credit to contributors or organizations that inspired or supported the deve
 Contact
 For questions or concerns, contact the project maintainer:
 
-Steven Chen -schen012@odu.edu
+Steven Chen schen012@odu.edu
 Feel free to open issues or pull requests for improvements or bug fixes.
